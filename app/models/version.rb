@@ -132,6 +132,12 @@ class Version < ApplicationRecord
                      :delete_permission => :manage_files
   acts_as_webhookable
 
+  # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
+  # so that version custom fields follow the project's custom field scheme
+  def available_custom_fields
+    project ? project.scheme_custom_fields(VersionCustomField).to_a : []
+  end
+
   VERSION_STATUSES = %w(open locked closed)
   VERSION_SHARINGS = %w(none descendants hierarchy tree system)
 

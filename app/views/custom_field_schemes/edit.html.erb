@@ -1,0 +1,5 @@
+<%= title [l(:label_custom_field_scheme_plural), custom_field_schemes_path], @scheme.name %>
+
+<%= labelled_form_for @scheme, :url => custom_field_scheme_path(@scheme) do |f| %>
+<%= render :partial => 'form', :locals => {:f => f} %>
+<% end %>

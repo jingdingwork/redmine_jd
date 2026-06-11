@@ -29,6 +29,10 @@ class CustomField < ApplicationRecord
   has_and_belongs_to_many :roles,
                           :join_table => "#{table_name_prefix}custom_fields_roles#{table_name_suffix}",
                           :foreign_key => "custom_field_id"
+  has_and_belongs_to_many :custom_field_schemes,
+                          :join_table => "#{table_name_prefix}custom_field_schemes_custom_fields#{table_name_suffix}",
+                          :foreign_key => "custom_field_id",
+                          :association_foreign_key => "custom_field_scheme_id"
   acts_as_positioned
   serialize :possible_values
   store :format_store

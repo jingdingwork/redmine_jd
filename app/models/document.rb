@@ -24,6 +24,12 @@ class Document < ApplicationRecord
   acts_as_attachable :delete_permission => :delete_documents
   acts_as_customizable
 
+  # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
+  # so that document custom fields follow the project's custom field scheme
+  def available_custom_fields
+    project ? project.scheme_custom_fields(DocumentCustomField).to_a : []
+  end
+
   acts_as_searchable :columns => ['title', "#{table_name}.description"],
                      :preload => :project
   acts_as_event(

@@ -1,0 +1,45 @@
+<%= error_messages_for 'scheme' %>
+
+<div class="box tabular">
+  <p><%= f.text_field :name, :required => true %></p>
+  <p><%= f.textarea :description, :rows => 4 %></p>
+</div>
+
+<fieldset class="box" id="custom_field_scheme_field_ids">
+  <legend><%= toggle_checkboxes_link('#custom_field_scheme_field_ids input[type=checkbox]') %><%= l(:label_custom_field_plural) %></legend>
+  <% selected_field_ids = @scheme.custom_field_ids %>
+  <% @custom_fields_by_type.each do |type, fields| %>
+    <div class="custom-field-scheme-group">
+      <p><strong><%= l(type.constantize.new.type_name) %></strong></p>
+      <% if fields.any? %>
+        <% fields.each do |field| %>
+          <label class="block">
+            <%= check_box_tag 'custom_field_scheme[custom_field_ids][]', field.id, selected_field_ids.include?(field.id), :id => nil %>
+            <%= custom_field_name_tag(field) %>
+          </label>
+        <% end %>
+      <% else %>
+        <p class="nodata"><%= l(:label_no_data) %></p>
+      <% end %>
+    </div>
+  <% end %>
+  <%= hidden_field_tag 'custom_field_scheme[custom_field_ids][]', '' %>
+</fieldset>
+
+<fieldset class="box" id="custom_field_scheme_project_ids">
+  <legend><%= toggle_checkboxes_link('#custom_field_scheme_project_ids input[type=checkbox]') %><%= l(:label_project_plural) %></legend>
+  <% selected_project_ids = @scheme.project_ids %>
+  <% if @projects.any? %>
+    <% @projects.each do |project| %>
+      <label class="block">
+        <%= check_box_tag 'custom_field_scheme[project_ids][]', project.id, selected_project_ids.include?(project.id), :id => nil %>
+        <%= project.name %>
+      </label>
+    <% end %>
+  <% else %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+  <% end %>
+  <%= hidden_field_tag 'custom_field_scheme[project_ids][]', '' %>
+</fieldset>
+
+<p><%= submit_tag l(@scheme.new_record? ? :button_create : :button_save) %></p>

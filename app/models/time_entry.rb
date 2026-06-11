@@ -233,6 +233,12 @@ class TimeEntry < ApplicationRecord
     visible_custom_field_values(user)
   end
 
+  # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
+  # so that time entry custom fields follow the project's custom field scheme
+  def available_custom_fields
+    project ? project.scheme_custom_fields(TimeEntryCustomField).to_a : []
+  end
+
   # Returns the custom fields that can be edited by the given user
   def editable_custom_fields(user=nil)
     editable_custom_field_values(user).map(&:custom_field).uniq

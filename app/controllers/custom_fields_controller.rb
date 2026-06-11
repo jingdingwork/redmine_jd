@@ -31,8 +31,8 @@ class CustomFieldsController < ApplicationController
       format.html do
         @custom_fields_by_type = CustomField.all.group_by {|f| f.class.name}
         @custom_fields_schemes_count =
-          IssueCustomField.
-            joins(:issue_custom_field_schemes).
+          CustomField.
+            joins(:custom_field_schemes).
             group("#{CustomField.table_name}.id").
             count
       end

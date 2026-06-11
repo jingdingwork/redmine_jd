@@ -16,21 +16,21 @@
   </fieldset>
   <% end %>
 
-  <fieldset class="box tabular" id="project_issue_custom_field_scheme"><legend><%= l(:label_issue_custom_field_scheme) %></legend>
+  <fieldset class="box tabular" id="project_custom_field_scheme"><legend><%= l(:label_custom_field_scheme) %></legend>
   <% if User.current.admin? %>
     <div class="contextual">
-      <%= link_to sprite_icon('settings', l(:label_administration)), issue_custom_field_schemes_path, :class => "icon icon-settings" %>
+      <%= link_to sprite_icon('settings', l(:label_administration)), custom_field_schemes_path, :class => "icon icon-settings" %>
     </div>
   <% end %>
   <p>
-    <%= f.select :issue_custom_field_scheme_id,
-                 @issue_custom_field_schemes.map {|scheme| [scheme.name, scheme.id]},
+    <%= f.select :custom_field_scheme_id,
+                 @custom_field_schemes.map {|scheme| [scheme.name, scheme.id]},
                  :include_blank => l(:label_none) %>
   </p>
-  <% if @project.issue_custom_field_scheme && @project.all_issue_custom_fields.any? %>
+  <% if @project.custom_field_scheme && @project.custom_field_scheme.custom_fields.any? %>
     <p>
       <label><%= l(:label_custom_field_plural) %></label>
-      <%= @project.all_issue_custom_fields.map {|field| custom_field_name_tag(field)}.join(', ').html_safe %>
+      <%= @project.custom_field_scheme.custom_fields.map {|field| custom_field_name_tag(field)}.join(', ').html_safe %>
     </p>
   <% end %>
   </fieldset>

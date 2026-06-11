@@ -60,7 +60,7 @@ class Project < ApplicationRecord
                           :class_name => 'IssueCustomField',
                           :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
-  belongs_to :issue_custom_field_scheme, :optional => true
+  belongs_to :custom_field_scheme, :optional => true
   has_and_belongs_to_many :webhooks
 
   # Default Custom Query
@@ -638,14 +638,17 @@ class Project < ApplicationRecord
     users.where('members.mail_notification = ? OR users.mail_notification = ?', true, 'all')
   end
 
+  # Returns a scope of custom fields of the given subclass (e.g. IssueCustomField)
+  # that are enabled for this project through its custom field scheme
+  def scheme_custom_fields(klass)
+    return klass.none unless custom_field_scheme
+
+    klass.sorted.where(:id => custom_field_scheme.custom_field_ids)
+  end
+
   # Returns a scope of all custom fields enabled for project issues
   def all_issue_custom_fields
-    @all_issue_custom_fields ||=
-      if issue_custom_field_scheme
-        issue_custom_field_scheme.issue_custom_fields.sorted
-      else
-        IssueCustomField.none
-      end
+    @all_issue_custom_fields ||= scheme_custom_fields(IssueCustomField)
   end
 
   # Returns a scope of all custom fields enabled for issues of the project
@@ -658,14 +661,20 @@ class Project < ApplicationRecord
         sorted.
         where(
           "EXISTS (SELECT 1" +
-          " FROM #{table_name_prefix}issue_custom_field_schemes_custom_fields#{table_name_suffix} scf" +
-          " JOIN #{Project.table_name} p ON p.issue_custom_field_scheme_id = scf.issue_custom_field_scheme_id" +
+          " FROM #{table_name_prefix}custom_field_schemes_custom_fields#{table_name_suffix} scf" +
+          " JOIN #{Project.table_name} p ON p.custom_field_scheme_id = scf.custom_field_scheme_id" +
           " WHERE scf.custom_field_id = #{CustomField.table_name}.id" +
           " AND p.lft >= ? AND p.rgt <= ?)",
           lft,
           rgt
         )
     end
+  end
+
+  # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
+  # so that project custom fields follow the project's own scheme
+  def available_custom_fields
+    scheme_custom_fields(ProjectCustomField).to_a
   end
 
   def project
@@ -833,7 +842,7 @@ class Project < ApplicationRecord
     'custom_field_values',
     'custom_fields',
     'tracker_ids',
-    'issue_custom_field_scheme_id',
+    'custom_field_scheme_id',
     'parent_id',
     'default_version_id',
     'default_issue_query_id',
@@ -969,7 +978,7 @@ class Project < ApplicationRecord
     copy.enabled_module_names = project.enabled_module_names
     copy.trackers = project.trackers
     copy.custom_values = project.custom_values.collect {|v| v.clone}
-    copy.issue_custom_field_scheme = project.issue_custom_field_scheme
+    copy.custom_field_scheme = project.custom_field_scheme
     copy
   end
 

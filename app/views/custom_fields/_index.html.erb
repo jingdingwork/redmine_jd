@@ -3,7 +3,7 @@
     <th><%=l(:field_name)%></th>
     <th><%=l(:field_field_format)%></th>
     <th><%=l(:field_is_required)%></th>
-    <% if tab[:name] == 'IssueCustomField' %>
+    <% if CustomFieldScheme::PARTICIPATING_TYPES.include?(tab[:name]) %>
       <th><%=l(:label_used_by)%></th>
     <% end %>
     <th></th>
@@ -15,8 +15,8 @@
       <td class="name"><%= link_to custom_field.name, edit_custom_field_path(custom_field) %></td>
       <td><%= l(custom_field.format.label) %></td>
       <td><%= checked_image custom_field.is_required? %></td>
-      <% if tab[:name] == 'IssueCustomField' %>
-      <td><%= l(:label_x_issue_custom_field_schemes, :count => @custom_fields_schemes_count[custom_field.id] || 0) %></td>
+      <% if CustomFieldScheme::PARTICIPATING_TYPES.include?(tab[:name]) %>
+      <td><%= l(:label_x_custom_field_schemes, :count => @custom_fields_schemes_count[custom_field.id] || 0) %></td>
       <% end %>
       <td class="buttons">
         <%= reorder_handle(custom_field, :url => custom_field_path(custom_field), :param => 'custom_field') %>
