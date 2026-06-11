@@ -354,6 +354,7 @@ Rails.application.routes.draw do
       match 'fields', :via => [:get, :post]
     end
   end
+  resources :issue_custom_field_schemes, :except => :show
   resources :issue_statuses, :except => :show do
     collection do
       post 'update_issue_done_ratio'

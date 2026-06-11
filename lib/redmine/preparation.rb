@@ -274,6 +274,10 @@ module Redmine
                   :caption => :label_custom_field_plural,
                   :icon => 'custom-fields',
                   :html => {:class => 'icon icon-custom-fields'}
+        menu.push :issue_custom_field_schemes, {:controller => 'issue_custom_field_schemes'},
+                  :caption => :label_issue_custom_field_scheme_plural,
+                  :icon => 'custom-fields',
+                  :html => {:class => 'icon icon-custom-fields'}
         menu.push :enumerations, {:controller => 'enumerations'},
                   :icon => 'list',
                   :html => {:class => 'icon icon-list'}

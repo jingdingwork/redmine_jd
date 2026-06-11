@@ -95,14 +95,14 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    @issue_custom_fields = IssueCustomField.sorted.to_a
+    @issue_custom_field_schemes = IssueCustomFieldScheme.sorted.to_a
     @trackers = Tracker.sorted.to_a
     @project = Project.new
     @project.safe_attributes = params[:project]
   end
 
   def create
-    @issue_custom_fields = IssueCustomField.sorted.to_a
+    @issue_custom_field_schemes = IssueCustomFieldScheme.sorted.to_a
     @trackers = Tracker.sorted.to_a
     @project = Project.new
     @project.safe_attributes = params[:project]
@@ -139,7 +139,7 @@ class ProjectsController < ApplicationController
   end
 
   def copy
-    @issue_custom_fields = IssueCustomField.sorted.to_a
+    @issue_custom_field_schemes = IssueCustomFieldScheme.sorted.to_a
     @trackers = Tracker.sorted.to_a
     @source_project = Project.find(params[:id])
     if request.get?
@@ -198,7 +198,7 @@ class ProjectsController < ApplicationController
   end
 
   def settings
-    @issue_custom_fields = IssueCustomField.sorted.to_a
+    @issue_custom_field_schemes = IssueCustomFieldScheme.sorted.to_a
     @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
     @trackers = Tracker.sorted.to_a

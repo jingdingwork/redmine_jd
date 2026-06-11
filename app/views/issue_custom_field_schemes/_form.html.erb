@@ -1,0 +1,24 @@
+<%= error_messages_for 'scheme' %>
+
+<div class="box tabular">
+  <p><%= f.text_field :name, :required => true %></p>
+  <p><%= f.textarea :description, :rows => 4 %></p>
+</div>
+
+<fieldset class="box" id="issue_custom_field_scheme_field_ids">
+  <legend><%= toggle_checkboxes_link('#issue_custom_field_scheme_field_ids input[type=checkbox]') %><%= l(:label_custom_field_plural) %></legend>
+  <% if @issue_custom_fields.any? %>
+    <% field_ids = @scheme.issue_custom_field_ids %>
+    <% @issue_custom_fields.each do |field| %>
+      <label class="block">
+        <%= check_box_tag 'issue_custom_field_scheme[issue_custom_field_ids][]', field.id, field_ids.include?(field.id), :id => nil %>
+        <%= custom_field_name_tag(field) %>
+      </label>
+    <% end %>
+  <% else %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+  <% end %>
+  <%= hidden_field_tag 'issue_custom_field_scheme[issue_custom_field_ids][]', '' %>
+</fieldset>
+
+<p><%= submit_tag l(@scheme.new_record? ? :button_create : :button_save) %></p>

@@ -209,6 +209,7 @@ en:
   error_no_tracker_in_project: 'No tracker is associated to this project. Please check the Project settings.'
   error_no_default_issue_status: 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
   error_can_not_delete_custom_field: Unable to delete custom field
+  error_can_not_delete_issue_custom_field_scheme: "Unable to delete issue custom field scheme because it is used by projects."
   error_can_not_delete_tracker_html: "This tracker contains issues and cannot be deleted.<p>The following projects have issues with this tracker:<br>%{projects}</p>"
   error_can_not_remove_role: "This role is in use and cannot be deleted."
   error_can_not_remove_role_reason_members_html: "<p>The following projects have members with this role:<br>%{projects}</p>"
@@ -284,6 +285,7 @@ en:
   field_name: Name
   field_description: Description
   field_summary: Summary
+  field_issue_custom_field_scheme: Issue custom field scheme
   field_is_required: Required
   field_firstname: First name
   field_lastname: Last name
@@ -682,6 +684,13 @@ en:
   label_custom_field: Custom field
   label_custom_field_plural: Custom fields
   label_custom_field_new: New custom field
+  label_issue_custom_field_scheme: Issue custom field scheme
+  label_issue_custom_field_scheme_plural: Issue custom field schemes
+  label_issue_custom_field_scheme_new: New issue custom field scheme
+  label_x_issue_custom_field_schemes:
+    zero:  no schemes
+    one:   1 scheme
+    other: "%{count} schemes"
   label_enumerations: Enumerations
   label_enumeration_new: New value
   label_information: Information

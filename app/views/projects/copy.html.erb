@@ -22,9 +22,7 @@
   <%= hidden_field_tag 'project[tracker_ids][]', tracker_id %>
 <% end %>
 
-<% @project.issue_custom_field_ids.each do |issue_custom_field_id| %>
-  <%= hidden_field_tag 'project[issue_custom_field_ids][]', issue_custom_field_id %>
-<% end %>
+<%= hidden_field_tag 'project[issue_custom_field_scheme_id]', @project.issue_custom_field_scheme_id if @project.issue_custom_field_scheme_id %>
 
 <%= submit_tag l(:button_copy) %>
 <% end %>
