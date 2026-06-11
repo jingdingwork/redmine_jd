@@ -1,0 +1,12 @@
+# Docker 专用数据库配置（仅在镜像内使用，不影响本地 Windows 的 config/database.yml）。
+# 使用 MySQL，连接参数全部走环境变量，默认值对应 docker-compose.yml 里的 db 服务。
+production:
+  adapter: mysql2
+  host: <%= ENV.fetch('REDMINE_DB_HOST', 'db') %>
+  port: <%= ENV.fetch('REDMINE_DB_PORT', '3306') %>
+  database: <%= ENV.fetch('REDMINE_DB_DATABASE', 'redmine') %>
+  username: <%= ENV.fetch('REDMINE_DB_USERNAME', 'redmine') %>
+  password: "<%= ENV.fetch('REDMINE_DB_PASSWORD', 'redmine') %>"
+  encoding: utf8mb4
+  variables:
+    transaction_isolation: "READ-COMMITTED"

@@ -1,0 +1,16 @@
+.git
+.gitignore
+.gitattributes
+log/*
+tmp/*
+public/assets
+public/plugin_assets
+test
+.claude
+*.md
+docker-compose.yml
+Dockerfile
+.dockerignore
+# 使用 MySQL，不需要本地 SQLite 库
+db/*.sqlite3
+db/*.sqlite3-*
